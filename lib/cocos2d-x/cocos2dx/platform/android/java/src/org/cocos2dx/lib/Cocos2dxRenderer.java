@@ -86,19 +86,17 @@ public class Cocos2dxRenderer implements GLSurfaceView.Renderer {
 		 * FPS controlling algorithm is not accurate, and it will slow down FPS
 		 * on some devices. So comment FPS controlling code.
 		 */
-		
-		/*
+
 		final long nowInNanoSeconds = System.nanoTime();
 		final long interval = nowInNanoSeconds - this.mLastTickInNanoSeconds;
-		*/
 
 		// should render a frame when onDrawFrame() is called or there is a
 		// "ghost"
 		Cocos2dxRenderer.nativeRender();
 
-		/*
 		// fps controlling
-		if (interval < Cocos2dxRenderer.sAnimationInterval) {
+		if (Cocos2dxRender.sAnimationInterval > 0.01 && // only control fps when set to low fps
+				interval < Cocos2dxRenderer.sAnimationInterval) {
 			try {
 				// because we render it before, so we should sleep twice time interval
 				Thread.sleep((Cocos2dxRenderer.sAnimationInterval - interval) / Cocos2dxRenderer.NANOSECONDSPERMICROSECOND);
@@ -107,7 +105,6 @@ public class Cocos2dxRenderer implements GLSurfaceView.Renderer {
 		}
 
 		this.mLastTickInNanoSeconds = nowInNanoSeconds;
-		*/
 	}
 
 	// ===========================================================
