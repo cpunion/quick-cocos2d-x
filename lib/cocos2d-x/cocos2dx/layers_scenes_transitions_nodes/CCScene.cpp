@@ -146,6 +146,12 @@ int CCScene::ccTouchBegan(CCTouch *pTouch, CCEvent *pEvent)
     }
 
     sortAllTouchableNodes(m_touchTargets);
+
+    if (m_touchTargets->count() == 0)
+    {
+        return kCCTouchIgnore;
+    }
+
     return kCCTouchBegan;
 }
 
