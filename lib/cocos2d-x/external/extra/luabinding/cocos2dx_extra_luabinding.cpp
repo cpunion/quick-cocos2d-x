@@ -824,6 +824,43 @@ static int tolua_cocos2dx_extra_luabinding_CCHTTPRequest_setPOSTData00(lua_State
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: setFormFile of class  CCHTTPRequest */
+#ifndef TOLUA_DISABLE_tolua_cocos2dx_extra_luabinding_CCHTTPRequest_setFormFile00
+static int tolua_cocos2dx_extra_luabinding_CCHTTPRequest_setFormFile00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+    tolua_Error tolua_err;
+    if (
+        !tolua_isusertype(tolua_S,1,"CCHTTPRequest",0,&tolua_err) ||
+        !tolua_isstring(tolua_S,2,0,&tolua_err) ||
+        !tolua_isstring(tolua_S,3,0,&tolua_err) ||
+        !tolua_isstring(tolua_S,4,0,&tolua_err) ||
+        !tolua_isnoobj(tolua_S,5,&tolua_err)
+        )
+        goto tolua_lerror;
+    else
+#endif
+    {
+        CCHTTPRequest* self = (CCHTTPRequest*)  tolua_tousertype(tolua_S,1,0);
+        const char* fieldName = ((const char*)  tolua_tostring(tolua_S,2,0));
+        const char* fileName = ((const char*)  tolua_tostring(tolua_S,3,0));
+        const char* contentType = ((const char*)  tolua_tostring(tolua_S,4,0));
+#ifndef TOLUA_RELEASE
+        if (!self) tolua_error(tolua_S,"invalid 'self' in function 'setFormFile'", NULL);
+#endif
+        {
+            self->setFormFile(fieldName, fileName, contentType);
+        }
+    }
+    return 0;
+#ifndef TOLUA_RELEASE
+tolua_lerror:
+    tolua_error(tolua_S,"#ferror in function 'setPOSTData'.",&tolua_err);
+    return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: setCookieString of class  CCHTTPRequest */
 #ifndef TOLUA_DISABLE_tolua_cocos2dx_extra_luabinding_CCHTTPRequest_setCookieString00
 static int tolua_cocos2dx_extra_luabinding_CCHTTPRequest_setCookieString00(lua_State* tolua_S)
@@ -1509,6 +1546,7 @@ TOLUA_API int tolua_cocos2dx_extra_luabinding_open (lua_State* tolua_S)
    tolua_function(tolua_S,"addRequestHeader",tolua_cocos2dx_extra_luabinding_CCHTTPRequest_addRequestHeader00);
    tolua_function(tolua_S,"addPOSTValue",tolua_cocos2dx_extra_luabinding_CCHTTPRequest_addPOSTValue00);
    tolua_function(tolua_S,"setPOSTData",tolua_cocos2dx_extra_luabinding_CCHTTPRequest_setPOSTData00);
+   tolua_function(tolua_S,"setFormFile",tolua_cocos2dx_extra_luabinding_CCHTTPRequest_setFormFile00);
    tolua_function(tolua_S,"setCookieString",tolua_cocos2dx_extra_luabinding_CCHTTPRequest_setCookieString00);
    tolua_function(tolua_S,"getCookieString",tolua_cocos2dx_extra_luabinding_CCHTTPRequest_getCookieString00);
    tolua_function(tolua_S,"setAcceptEncoding",tolua_cocos2dx_extra_luabinding_CCHTTPRequest_setAcceptEncoding00);

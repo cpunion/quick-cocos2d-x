@@ -54,6 +54,7 @@ bool CCHTTPRequest::initWithListener(LUA_FUNCTION listener, const char *url, int
 bool CCHTTPRequest::initWithUrl(const char *url, int method)
 {
     CCAssert(url, "CCHTTPRequest::initWithUrl() - invalid url");
+    m_formptr = NULL;
     m_curl = curl_easy_init();
     curl_easy_setopt(m_curl, CURLOPT_URL, url);
     curl_easy_setopt(m_curl, CURLOPT_USERAGENT, "libcurl");
@@ -115,6 +116,18 @@ void CCHTTPRequest::setPOSTData(const char *data)
     m_postFields.clear();
     curl_easy_setopt(m_curl, CURLOPT_POST, 1L);
     curl_easy_setopt(m_curl, CURLOPT_COPYPOSTFIELDS, data);
+}
+
+void CCHTTPRequest::setFormFile(const char* fieldName, const char* fileName, const char* contentType)
+{
+    CCAssert(m_state == kCCHTTPRequestStateIdle, "CCHTTPRequest::setFormFile() - request not idle");
+    CCAssert(!m_formptr, "CCHTTPRequest::setFormFile() - form not cleanup");
+    CCAssert(fieldName, "CCHTTPRequest::setFormFile() - invalid field name");
+    CCAssert(fileName, "CCHTTPRequest::setFormFile() - invalid file name");
+    CCAssert(contentType, "CCHTTPRequest::setFormFile() - invalid content type");
+    struct curl_httppost* formpost = NULL;
+	curl_formadd(&formpost, &m_formptr, CURLFORM_COPYNAME, fieldName, CURLFORM_FILE, fileName, CURLFORM_CONTENTTYPE, contentType, CURLFORM_END);
+    curl_easy_setopt(m_curl, CURLOPT_HTTPPOST, formpost);
 }
 
 void CCHTTPRequest::setCookieString(const char *cookie)
@@ -399,6 +412,11 @@ void CCHTTPRequest::onRequest(void)
     }
 
     curl_easy_cleanup(m_curl);
+    if (m_formptr)
+    {
+        curl_formfree(m_formptr);
+        m_formptr = NULL;
+    }
     m_curl = NULL;
     curl_slist_free_all(chunk);
     

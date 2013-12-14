@@ -77,6 +77,9 @@ public:
 
     /** @brief Set POST data to the request body, POST only. */
     void setPOSTData(const char *data);
+    
+    /** @brief Add file data to request, POST only. TEMPORARILY. */
+    void setFormFile(const char* fieldName, const char* fileName, const char* contentType);
 
     /** @brief Set/Get cookie string. */
     void setCookieString(const char *cookie);
@@ -160,6 +163,7 @@ private:
     static unsigned int s_id;
     string m_url;
     CURL *m_curl;
+    struct curl_httppost* m_formptr;
     CCHTTPRequestDelegate* m_delegate;
     int m_listener;
     int m_curlState;
